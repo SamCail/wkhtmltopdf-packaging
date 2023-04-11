@@ -2,7 +2,7 @@ ARG  from
 FROM ${from}
 
 ARG  jpeg=libjpeg-dev
-ARG  python=python
+ARG  python=python3
 ARG  ssl=libssl-dev
 ENV  CFLAGS=-w CXXFLAGS=-w
 

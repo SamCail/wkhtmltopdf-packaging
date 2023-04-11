@@ -84,6 +84,30 @@ docker-targets:
       xfonts-base
       zlib1g
 
+  raspberrypi.stretch-armhf:
+    source: docker/Dockerfile.debian
+    args:
+      from: balenalib/rpi-raspbian:stretch
+    output: deb
+    qemu:   linux/amd64
+    arch:   armhf
+    depend: >
+      ca-certificates
+      fontconfig
+      libc6
+      libfreetype6
+      libjpeg62-turbo
+      libpng16-16
+      libssl1.1
+      libstdc++6
+      libx11-6
+      libxcb1
+      libxext6
+      libxrender1
+      xfonts-75dpi
+      xfonts-base
+      zlib1g
+
   raspberrypi.buster-armhf:
     source: docker/Dockerfile.debian
     args:
@@ -181,6 +205,30 @@ docker-targets:
       xfonts-base
       zlib1g
 
+  xenial:
+    source: docker/Dockerfile.debian
+    args:
+      from: ubuntu:xenial
+      jpeg: libjpeg-turbo8-dev
+    output: deb
+    matrix: ['amd64', 'i386', 'arm64', 'armhf', 'ppc64el']
+    depend: >
+      ca-certificates
+      fontconfig
+      libc6
+      libfreetype6
+      libjpeg-turbo8
+      libpng12-0
+      libssl1.0.0
+      libstdc++6
+      libx11-6
+      libxcb1
+      libxext6
+      libxrender1
+      xfonts-75dpi
+      xfonts-base
+      zlib1g
+
   almalinux9:
     source: docker/Dockerfile.centos
     args:
@@ -224,6 +272,29 @@ docker-targets:
       xorg-x11-fonts-75dpi
       xorg-x11-fonts-Type1
       zlib
+
+  centos8:
+    source: docker/Dockerfile.centos
+    args:
+      from: centos:8
+    output: rpm
+    matrix: ['x86_64', 'aarch64', 'ppc64le']
+    depend: >
+      ca-certificates
+      fontconfig
+      freetype
+      glibc
+      libjpeg
+      libpng
+      libstdc++
+      libX11
+      libXext
+      libXrender
+      openssl
+      xorg-x11-fonts-75dpi
+      xorg-x11-fonts-Type1
+      zlib
+
 
   centos7:
     source: docker/Dockerfile.centos
@@ -390,6 +461,12 @@ vagrant-targets:
     qt_config:      macos-cocoa
     home_in_rsync:  /Users/vagrant
 
+  macos-carbon:
+    vm:             macos_lion
+    custom_build:   macos
+    qt_config:      macos-carbon
+    home_in_rsync:  /Users/vagrant
+
   msvc2015-win64:
     vm:             windows
     qt_config:      msvc
@@ -497,6 +574,16 @@ qt-config:
     -no-rpath
     -no-pch
     -xplatform win32-g++-4.6
+  macos-carbon: >
+    -silent
+    -reduce-exports
+    -no-framework
+    -no-dwarf2
+    -openssl-linked
+    -largefile
+    -no-rpath
+    -carbon
+    -platform unsupported/macx-clang
   macos-cocoa: >
     -silent
     -reduce-exports
